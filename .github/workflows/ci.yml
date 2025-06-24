@@ -60,4 +60,4 @@ jobs:
 
       # Run Expo prebuild or check config
       - name: Validate Expo project
-        run: expo doctor
+        run: npx expo-doctor
