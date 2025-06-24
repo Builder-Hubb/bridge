@@ -11,7 +11,7 @@ on:
       - dev
 
 jobs:
-  build-and-test:
+  expo-ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,14 @@ jobs:
         with:
           node-version: '20'
 
+      # Install expo-cli globally
+      - name: Install expo-cli
+        run: npm install -g expo-cli
+
+      # Install EAS CLI globally (if using EAS)
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
       # Cache npm dependencies
       - name: Cache npm dependencies
         uses: actions/cache@v4
@@ -34,7 +42,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      # Install dependencies
+      # Install project dependencies
       - name: Install dependencies
         run: npm install
 
@@ -46,10 +54,10 @@ jobs:
       - name: Run Prettier check
         run: npm run prettier-check
 
-      # Run tests with Jest
+      # Run tests (uncomment if you have Jest or other tests)
       # - name: Run tests
       #   run: npm run test
 
-      # Run build for all apps
-      - name: Build all apps
-        run: npm run build
+      # Run Expo prebuild or check config
+      - name: Validate Expo project
+        run: expo doctor
