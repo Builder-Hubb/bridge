@@ -1,6 +1,10 @@
-.github
+.github/
 globals.css
-public
-assets
+public/
+assets/
 README.md
 render.yaml
+tsconfig.json
+remove_console.js
+constants/
+eslint.config.js
