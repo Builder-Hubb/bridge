@@ -1,50 +1,87 @@
-# Welcome to your Expo app 👋
+# 🤝 Bridge
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Bridge is a lightweight communication wellness app that helps users track their replies and reconnect with others in a calm and structured way without the overwhelm of traditional messaging platforms.
 
-## Get started
+It’s designed for people who:
+- Miss messages in archive or forget to reply
+- Want gentle reminders without noisy notifications
+- Prefer subtle check-ins and structured reconnection
 
-1. Install dependencies
+---
+
+## 🛠️ Project Setup
+
+Our frontend is built with:
+- **React Native (Expo)**
+- **Typescript**
+- **StyleSheet**
+
+All base colors live in `constants/Colours.ts`. Please use the color scale consistently across screens.
+
+Each screen lives in its own folder under `/app` or `/components`. We organize by **feature**, not type.
+
+---
+
+## 🔄 Git Workflow
+
+We use a branching model to maintain code quality:
+
+### 🔁 Branches
+- `main` – This is our **production** branch. No direct commits here.
+- `dev` – This is the **staging** branch for all in-progress features.
+
+### ✅ Workflow for Contributors
+1. **Pull** the latest changes from `dev`:
+   ```bash
+   git checkout dev
+   git pull origin dev
+````
+
+2. **Create a feature branch** off `dev`:
 
    ```bash
-   npm install
+   git checkout -b feat/your-feature-name
    ```
 
-2. Start the app
+3. Work on your component or screen (match the Figma UI).
+
+   * Use local state only for now (no backend integration).
+   * Keep components small and reusable when possible.
+
+4. **Commit** your changes clearly:
 
    ```bash
-   npx expo start
+   git add .
+   git commit -m "feat: build onboarding screen"
    ```
 
-In the output, you'll find options to open the app in a
+5. **Push** your branch:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   git push origin feat/your-feature-name
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+6. **Create a Pull Request** into `dev` via GitHub.
 
-## Get a fresh project
+   * Add a short description, screenshot and link the task/issue (if available).
+   * Wait for code review and feedback.
 
-When you're ready, run:
+7. After approval, your PR will be merged into `dev`.
 
-```bash
-npm run reset-project
+---
+
+## 🧾 Guidelines
+
+* **Use the shared `Colours.ts` file** — do not hardcode colors
+* Follow the file structure already established
+* Respect naming conventions and keep file names consistent (e.g., `NotificationSettings.tsx`, `CheckInModal.tsx`)
+
+
+---
+
+Let’s keep Bridge clean, accessible, and easy to maintain.
+If you’re unsure where to place something or need help, tag the team in the PR or ask in the whatsapp group channel.
+
+Thanks for contributing :)
+
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

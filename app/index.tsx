@@ -1,6 +1,8 @@
 import { Text, View } from "react-native";
+import Button from "./components/Button";
 
 export default function Index() {
+  const handlePress = () => {};
   return (
     <View
       style={{
@@ -10,6 +12,7 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Button label="Get Started" onPress={handlePress} loading={false} />
     </View>
   );
 }
