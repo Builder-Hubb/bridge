@@ -29,7 +29,9 @@ export default function RootLayout() {
   return (
     <ThemeProvider theme={theme}>
       <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <Stack />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+        </Stack>
       </View>
     </ThemeProvider>
   );

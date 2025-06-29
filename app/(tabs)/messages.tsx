@@ -1,10 +1,9 @@
-import React from "react";
 import { Text, View } from "react-native";
 
-export default function messages() {
+export default function Messages() {
   return (
-    <View>
-      <Text>messages</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Messages Screen</Text>
     </View>
   );
 }

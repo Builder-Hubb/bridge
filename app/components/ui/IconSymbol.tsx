@@ -21,6 +21,14 @@ const MAPPING = {
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  // for your tab bar
+  "message.fill": "message",
+  "chart.bar.fill": "bar-chart",
+  "gearshape.fill": "settings",
+  plus: "add",
+  "bell.fill": "notifications",
+  "person.fill": "person",
+  magnifyingglass: "search",
 } as IconMapping;
 
 /**
@@ -28,7 +36,7 @@ const MAPPING = {
  * This ensures a consistent look across platforms, and optimal resource usage.
  * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
  */
-export function IconSymbol({
+const IconSymbol = ({
   name,
   size = 24,
   color,
@@ -39,7 +47,7 @@ export function IconSymbol({
   color: string | OpaqueColorValue;
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
-}) {
+}) => {
   return (
     <MaterialIcons
       color={color}
@@ -48,4 +56,6 @@ export function IconSymbol({
       style={style}
     />
   );
-}
+};
+
+export default IconSymbol;
