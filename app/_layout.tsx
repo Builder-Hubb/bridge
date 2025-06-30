@@ -29,11 +29,14 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider theme={theme}>
-        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-          <Stack />
-        </View>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <ThemeProvider theme={theme}>
+      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+      </View>
+    </ThemeProvider>
+          </GestureHandlerRootView>
+
   );
 }
