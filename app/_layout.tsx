@@ -8,6 +8,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemeProvider } from "styled-components/native";
 
 SplashScreen.preventAutoHideAsync();
@@ -27,12 +28,14 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <ThemeProvider theme={theme}>
-      <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-      </View>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </View>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

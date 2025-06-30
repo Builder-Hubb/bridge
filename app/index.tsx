@@ -1,8 +1,11 @@
 import { Text, View } from "react-native";
-import Button from "./components/Button";
+import { router } from "expo-router";
+import Button from "../components/Button";
 
 export default function Index() {
-  const handlePress = () => {};
+  const handlePress = () => {
+    router.push("/analytics");
+  };
   return (
     <View
       style={{
@@ -12,7 +15,7 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Button label="Get Started" onPress={handlePress} loading={false} />
+      <Button label="View Analytics" onPress={handlePress} loading={false} />
     </View>
   );
 }
