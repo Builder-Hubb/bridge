@@ -1,10 +1,9 @@
 import { Text, View } from "react-native";
-import { router } from "expo-router";
 import Button from "../components/Button";
 
 export default function Index() {
   const handlePress = () => {
-    router.push("/analytics");
+    // router.push("/analytics");
   };
   return (
     <View
