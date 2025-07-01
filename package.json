@@ -26,7 +26,10 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
-        "listUnknownPackages": false
+        "listUnknownPackages": false,
+        "exclude": [
+          "react-native-chart-kit"
+        ]
       }
     }
   },
