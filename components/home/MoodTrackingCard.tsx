@@ -89,7 +89,6 @@ const MoodTrackingCard = ({
 
   const handleGestureEvent = (event: PanGestureHandlerGestureEvent) => {
     const { translationX, absoluteX } = event.nativeEvent;
-    // Calculate the gesture position relative to the chart
     const gestureX = absoluteX - (screenWidth - chartWidth) / 2;
 
     if (gestureX >= padding && gestureX <= chartWidth - padding) {
