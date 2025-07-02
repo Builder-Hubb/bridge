@@ -8,12 +8,17 @@ import {
   TAG_ICON,
 } from "@/constants/icons";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { SafeAreaView, StatusBar, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 export default function SettingsScreen() {
-  const handleProfilePress = () => {};
+  const router = useRouter();
+
+  const handleProfilePress = () => {
+    router.push("/screens/profile");
+  };
 
   const handleSettingPress = (setting: string) => {};
 
