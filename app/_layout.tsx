@@ -19,6 +19,8 @@ export default function RootLayout() {
     Manrope_600SemiBold,
   });
 
+  const isAuthenticated = false;
+
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
@@ -32,7 +34,11 @@ export default function RootLayout() {
       <ThemeProvider theme={theme}>
         <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
+            {isAuthenticated ? (
+              <Stack.Screen name="(tabs)" />
+            ) : (
+              <Stack.Screen name="(auth)/sign-up" />
+            )}
           </Stack>
         </View>
       </ThemeProvider>
