@@ -41,6 +41,7 @@ export const Colours = {
     2: "#3A3A3A",
     3: "#11111133"
   },
+
   blue: {
     1: "#5B7DFF",
   },
