@@ -6,6 +6,7 @@ export const Colours = {
     1.5: "#C4E4D3",
     2: "#B1DBC4",
     3: "#89CAA6",
+    3.5: "#B5D3D8",
     4: "#62B889",
     5: "#3BA66B",
     6: "#2F8556",
@@ -40,6 +41,7 @@ export const Colours = {
     2: "#3A3A3A",
     3: "#11111133"
   },
+
   blue: {
     1: "#5B7DFF",
   },
