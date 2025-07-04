@@ -7,6 +7,7 @@ declare module "styled-components/native" {
       purple: Record<string | number, string>;
     };
     fonts: {
+      medium: string;
       regular: string;
       semibold: string;
     };

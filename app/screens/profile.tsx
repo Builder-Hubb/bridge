@@ -1,217 +1,361 @@
+import Button from "@/components/Button";
+import AvatarUploader from "@/components/profile/AvatarUploader";
 import { Colours } from "@/constants/Colours";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { ARROW_LEFT_ICON } from "@/constants/icons";
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
   Alert,
-  SafeAreaView,
-  StatusBar,
-  Text,
-  TextInput,
-  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import styled from "styled-components/native";
+import CustomIcon from "../components/ui/CustomIcon";
 
-const Container = styled(SafeAreaView)`
-  flex: 1;
-  background-color: ${Colours.green[0.5]};
-`;
+interface ProfileData {
+  fullName: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  avatar?: string | number;
+}
 
-const Header = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 20px;
-  background-color: ${Colours.green[0]};
-`;
+const mockApiSave = async (
+  data: ProfileData
+): Promise<{ success: boolean; message: string }> => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const success = Math.random() > 0.2;
 
-const BackButton = styled.Pressable`
-  margin-right: 16px;
-`;
+  return {
+    success,
+    message: success
+      ? "Profile updated successfully!"
+      : "Failed to update profile. Please try again.",
+  };
+};
 
-const HeaderTitle = styled(Text)`
-  font-size: 18px;
-  font-weight: 600;
-  color: ${Colours.black[0]};
-`;
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
-const Content = styled(View)`
-  flex: 1;
-  padding: 20px;
-`;
+const validatePhoneNumber = (phone: string): boolean => {
+  const phoneRegex = /^\+?[\d\s-()]{10,}$/;
+  return phoneRegex.test(phone.replace(/\s/g, ""));
+};
 
-const ProfileImageSection = styled(View)`
-  align-items: center;
-  margin-bottom: 32px;
-`;
+const ProfileScreen: React.FC = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-const ProfileImageContainer = styled(View)`
-  width: 120px;
-  height: 120px;
-  border-radius: 60px;
-  background-color: ${Colours.green[3]};
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 16px;
-`;
+  const [profileData, setProfileData] = useState<ProfileData>({
+    fullName: "Sarah Johnson",
+    username: "@sarahj",
+    email: "sarah.johnson@example.com",
+    phoneNumber: "+1 (555) 123-4567",
+    avatar: require("../../assets/images/avatar.png"),
+  });
 
-const ChangePhotoButton = styled.Pressable`
-  background-color: ${Colours.green[6]};
-  padding: 8px 16px;
-  border-radius: 20px;
-`;
+  const [formData, setFormData] = useState<ProfileData>(profileData);
+  const [errors, setErrors] = useState<Partial<ProfileData>>({});
 
-const ChangePhotoText = styled(Text)`
-  color: ${Colours.green[0]};
-  font-size: 14px;
-  font-weight: 500;
-`;
-
-const FormSection = styled(View)`
-  gap: 20px;
-`;
-
-const InputGroup = styled(View)`
-  gap: 8px;
-`;
-
-const Label = styled(Text)`
-  font-size: 16px;
-  font-weight: 600;
-  color: ${Colours.black[0]};
-`;
-
-const StyledTextInput = styled(TextInput)`
-  background-color: ${Colours.green[0]};
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 16px;
-  color: ${Colours.black[0]};
-  border: 1px solid ${Colours.green[2]};
-`;
-
-const SaveButton = styled.Pressable`
-  background-color: ${Colours.green[6]};
-  padding: 16px;
-  border-radius: 12px;
-  align-items: center;
-  margin-top: 32px;
-`;
-
-const SaveButtonText = styled(Text)`
-  color: ${Colours.green[0]};
-  font-size: 16px;
-  font-weight: 600;
-`;
-
-const InfoCard = styled(View)`
-  background-color: ${Colours.green[0]};
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 20px;
-  border-left-width: 4px;
-  border-left-color: ${Colours.blue[1]};
-`;
-
-const InfoText = styled(Text)`
-  font-size: 14px;
-  color: ${Colours.black[2]};
-  line-height: 20px;
-`;
-
-export default function ProfileScreen() {
-  const router = useRouter();
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("john.doe@example.com");
-  const [bio, setBio] = useState("Living my best life, one day at a time.");
-
-  const handleBackPress = () => {
-    router.back();
+  const handleEdit = () => {
+    setFormData(profileData);
+    setErrors({});
+    setIsEditing(true);
   };
 
-  const handleChangePhoto = () => {
-    Alert.alert(
-      "Change Photo",
-      "Photo selection functionality would be implemented here"
-    );
+  const validateForm = (): boolean => {
+    const newErrors: Partial<ProfileData> = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (!formData.username.startsWith("@")) {
+      newErrors.username = "Username must start with @";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "Phone number is required";
+    } else if (!validatePhoneNumber(formData.phoneNumber)) {
+      newErrors.phoneNumber = "Please enter a valid phone number";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
-    Alert.alert(
-      "Profile Updated",
-      "Your profile has been successfully updated!"
-    );
-    // Add save logic here
+  const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const result = await mockApiSave(formData);
+
+      if (result.success) {
+        setProfileData(formData);
+        setIsEditing(false);
+        Alert.alert("Success", result.message);
+      } else {
+        Alert.alert("Error", result.message);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAvatarChange = (avatarUri: string) => {
+    if (isEditing) {
+      setFormData((prev) => ({ ...prev, avatar: avatarUri }));
+    }
+  };
+
+  const updateFormField = (field: keyof ProfileData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
   return (
     <Container>
-      <StatusBar barStyle="dark-content" backgroundColor={Colours.green[0]} />
+      <StatusBar style="dark" />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Header>
+            <BackButton>
+              <CustomIcon
+                svgString={ARROW_LEFT_ICON}
+                size={24}
+                color={Colours.purple[8.5]}
+              />
+            </BackButton>
+            <HeaderTitle>Profile</HeaderTitle>
+            <Spacer />
+          </Header>
 
-      <Header>
-        <BackButton onPress={handleBackPress}>
-          <Ionicons name="chevron-back" size={24} color={Colours.black[0]} />
-        </BackButton>
-        <HeaderTitle>Profile</HeaderTitle>
-      </Header>
+          <AvatarUploader
+            currentAvatar={isEditing ? formData.avatar : profileData.avatar}
+            onAvatarChange={handleAvatarChange}
+            isEditable={isEditing}
+          />
 
-      <Content>
-        <ProfileImageSection>
-          <ProfileImageContainer>
-            <Ionicons name="person" size={60} color={Colours.green[0]} />
-          </ProfileImageContainer>
-          <ChangePhotoButton onPress={handleChangePhoto}>
-            <ChangePhotoText>Change Photo</ChangePhotoText>
-          </ChangePhotoButton>
-        </ProfileImageSection>
+          <ProfileCard>
+            <FormSection>
+              <SectionTitle>Personal Information</SectionTitle>
 
-        <FormSection>
-          <InputGroup>
-            <Label>Full Name</Label>
-            <StyledTextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Enter your full name"
-              placeholderTextColor={Colours.black[2]}
-            />
-          </InputGroup>
+              <InputGroup>
+                <InputLabel>Full Name</InputLabel>
+                {isEditing ? (
+                  <>
+                    <StyledInput
+                      value={formData.fullName}
+                      onChangeText={(text) => updateFormField("fullName", text)}
+                      placeholder="Enter your full name"
+                      hasError={!!errors.fullName}
+                    />
+                    {errors.fullName && (
+                      <ErrorText>{errors.fullName}</ErrorText>
+                    )}
+                  </>
+                ) : (
+                  <DisplayText>{profileData.fullName}</DisplayText>
+                )}
+              </InputGroup>
 
-          <InputGroup>
-            <Label>Email Address</Label>
-            <StyledTextInput
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Enter your email"
-              placeholderTextColor={Colours.black[2]}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </InputGroup>
+              <InputGroup>
+                <InputLabel>Username</InputLabel>
+                {isEditing ? (
+                  <>
+                    <StyledInput
+                      value={formData.username}
+                      onChangeText={(text) => updateFormField("username", text)}
+                      placeholder="@username"
+                      hasError={!!errors.username}
+                    />
+                    {errors.username && (
+                      <ErrorText>{errors.username}</ErrorText>
+                    )}
+                  </>
+                ) : (
+                  <DisplayText>{profileData.username}</DisplayText>
+                )}
+              </InputGroup>
 
-          <InputGroup>
-            <Label>Bio</Label>
-            <StyledTextInput
-              value={bio}
-              onChangeText={setBio}
-              placeholder="Tell us about yourself"
-              placeholderTextColor={Colours.black[2]}
-              multiline
-              numberOfLines={3}
-              textAlignVertical="top"
-            />
-          </InputGroup>
-        </FormSection>
+              <InputGroup>
+                <InputLabel>Email Address</InputLabel>
+                {isEditing ? (
+                  <>
+                    <StyledInput
+                      value={formData.email}
+                      onChangeText={(text) => updateFormField("email", text)}
+                      placeholder="Enter your email"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      hasError={!!errors.email}
+                    />
+                    {errors.email && <ErrorText>{errors.email}</ErrorText>}
+                  </>
+                ) : (
+                  <DisplayText>{profileData.email}</DisplayText>
+                )}
+              </InputGroup>
 
-        <SaveButton onPress={handleSave}>
-          <SaveButtonText>Save Changes</SaveButtonText>
-        </SaveButton>
+              <InputGroup>
+                <InputLabel>Phone Number</InputLabel>
+                {isEditing ? (
+                  <>
+                    <StyledInput
+                      value={formData.phoneNumber}
+                      onChangeText={(text) =>
+                        updateFormField("phoneNumber", text)
+                      }
+                      placeholder="Enter your phone number"
+                      keyboardType="phone-pad"
+                      hasError={!!errors.phoneNumber}
+                    />
+                    {errors.phoneNumber && (
+                      <ErrorText>{errors.phoneNumber}</ErrorText>
+                    )}
+                  </>
+                ) : (
+                  <DisplayText>{profileData.phoneNumber}</DisplayText>
+                )}
+              </InputGroup>
+            </FormSection>
 
-        <InfoCard>
-          <InfoText>
-            Your profile information helps personalize your experience. This
-            data is kept secure and private.
-          </InfoText>
-        </InfoCard>
-      </Content>
+            <ButtonContainer>
+              <Button
+                label={isEditing ? "Save" : "Edit"}
+                onPress={isEditing ? handleSave : handleEdit}
+                loading={isLoading}
+                variant="primary"
+              />
+            </ButtonContainer>
+          </ProfileCard>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
-}
+};
+
+export default ProfileScreen;
+
+const Container = styled.View`
+  flex: 1;
+  background-color: ${Colours.green[0]};
+`;
+
+const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  padding-top: 60px;
+`;
+
+const BackButton = styled.TouchableOpacity`
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BackIcon = styled.Text`
+  font-size: 18px;
+  color: ${Colours.purple[8.5]};
+`;
+
+const HeaderTitle = styled.Text`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${Colours.purple[8.5]};
+  font-family: semibold;
+`;
+
+const Spacer = styled.View`
+  width: 32px;
+`;
+
+const ProfileCard = styled.View`
+  margin: 20px;
+  background-color: #f5f5f7;
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid #cacaca;
+`;
+
+const FormSection = styled.View`
+  margin-top: 24px;
+`;
+
+const SectionTitle = styled.Text`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${Colours.purple[8.5]};
+  margin-bottom: 20px;
+  font-family: Manrope_600SemiBold;
+`;
+
+const InputGroup = styled.View`
+  margin-bottom: 20px;
+`;
+
+const InputLabel = styled.Text`
+  font-size: 16px;
+  color: ${Colours.purple[7]};
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-family: Manrope_500SemiBold;
+`;
+
+const StyledInput = styled.TextInput<{ hasError?: boolean }>`
+  border: 1px solid
+    ${({ hasError }) => (hasError ? Colours.red[1] : Colours.green[3.5])};
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 16px;
+  color: ${Colours.purple[7]};
+  background-color: ${Colours.green[0]};
+  font-family: Manrope_400SemiBold;
+`;
+
+const DisplayText = styled.Text`
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 16px;
+  color: ${Colours.purple[7]};
+  background-color: ${Colours.green[0]};
+  font-family: Manrope_400SemiBold;
+  border: 1px solid ${Colours.green[3.5]};
+  border-radius: 10px;
+`;
+
+const ErrorText = styled.Text`
+  color: ${Colours.red[1]};
+  font-size: 12px;
+  margin-top: 4px;
+  font-family: semibold;
+`;
+
+const ButtonContainer = styled.View`
+  margin-top: 24px;
+`;
