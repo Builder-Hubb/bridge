@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import AvatarUploader from "@/components/profile/AvatarUploader";
 import { Colours } from "@/constants/Colours";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
@@ -131,6 +132,10 @@ const ProfileScreen: React.FC = () => {
     }
   };
 
+  const handleBackPress = () => {
+    router.push("/(tabs)/settings");
+  };
+
   return (
     <Container>
       <StatusBar style="dark" />
@@ -140,14 +145,8 @@ const ProfileScreen: React.FC = () => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header>
-            <BackButton>
-              <BackButton>
-                <Ionicons
-                  name="arrow-back"
-                  size={16}
-                  color={Colours.green[7]}
-                />
-              </BackButton>
+            <BackButton onPress={handleBackPress}>
+              <Ionicons name="arrow-back" size={16} color={Colours.green[7]} />
             </BackButton>
             <HeaderTitle>Profile</HeaderTitle>
             <Spacer />
