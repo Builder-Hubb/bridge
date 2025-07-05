@@ -2,6 +2,7 @@ import { Colours } from "@/constants/Colours";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { Alert, Platform } from "react-native";
+import { SvgXml } from "react-native-svg";
 import styled from "styled-components/native";
 
 interface AvatarUploaderProps {
@@ -16,7 +17,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
   isEditable,
 }) => {
   const [previewUri, setPreviewUri] = useState<string | undefined>(
-    typeof currentAvatar === "number" ? currentAvatar.toString() : currentAvatar
+    typeof currentAvatar === "string" ? currentAvatar : undefined
   );
 
   const requestPermissions = async () => {
@@ -99,29 +100,42 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
     </DefaultAvatarContainer>
   );
 
+  const getAvatarSource = () => {
+    if (previewUri) {
+      return { uri: previewUri };
+    }
+
+    if (typeof currentAvatar === "string") {
+      return { uri: currentAvatar };
+    }
+
+    if (typeof currentAvatar === "number") {
+      return currentAvatar;
+    }
+    return null;
+  };
+
   return (
     <AvatarContainer>
       <AvatarWrapper
         onPress={isEditable ? pickImage : undefined}
         disabled={!isEditable}
       >
-        {previewUri ? (
-          <AvatarImage source={{ uri: previewUri }} />
-        ) : currentAvatar ? (
-          <AvatarImage
-            source={
-              typeof currentAvatar === "string"
-                ? { uri: currentAvatar }
-                : currentAvatar
-            }
-          />
-        ) : (
-          renderDefaultAvatar()
-        )}
+        {(() => {
+          const source = getAvatarSource();
+          if (source) {
+            return <AvatarImage source={source} />;
+          }
+          return renderDefaultAvatar();
+        })()}
 
         {isEditable && (
           <EditOverlay>
-            <EditIcon>📷</EditIcon>
+            <SvgXml
+              xml={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill='#ffffff' d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>`}
+              width={16}
+              height={16}
+            />
           </EditOverlay>
         )}
       </AvatarWrapper>
@@ -168,8 +182,9 @@ const DefaultAvatarText = styled.Text`
 
 const EditOverlay = styled.View`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  z-index: 9999;
+  bottom: 7px;
+  right: -2px;
   width: 32px;
   height: 32px;
   background-color: ${Colours.purple[8.5]};
@@ -177,9 +192,5 @@ const EditOverlay = styled.View`
   align-items: center;
   justify-content: center;
   border: 2px solid ${Colours.green[0]};
-`;
-
-const EditIcon = styled.Text`
-  font-size: 16px;
-  color: ${Colours.green[0]};
+  shadow-radius: 3.84px;
 `;

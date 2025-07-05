@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import AvatarUploader from "@/components/profile/AvatarUploader";
 import { Colours } from "@/constants/Colours";
-import { ARROW_LEFT_ICON } from "@/constants/icons";
+import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
@@ -11,7 +11,6 @@ import {
   ScrollView,
 } from "react-native";
 import styled from "styled-components/native";
-import CustomIcon from "../components/ui/CustomIcon";
 
 interface ProfileData {
   fullName: string;
@@ -142,11 +141,13 @@ const ProfileScreen: React.FC = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header>
             <BackButton>
-              <CustomIcon
-                svgString={ARROW_LEFT_ICON}
-                size={24}
-                color={Colours.purple[8.5]}
-              />
+              <BackButton>
+                <Ionicons
+                  name="arrow-back"
+                  size={16}
+                  color={Colours.green[7]}
+                />
+              </BackButton>
             </BackButton>
             <HeaderTitle>Profile</HeaderTitle>
             <Spacer />
@@ -275,13 +276,6 @@ const Header = styled.View`
 const BackButton = styled.TouchableOpacity`
   width: 32px;
   height: 32px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BackIcon = styled.Text`
-  font-size: 18px;
-  color: ${Colours.purple[8.5]};
 `;
 
 const HeaderTitle = styled.Text`
