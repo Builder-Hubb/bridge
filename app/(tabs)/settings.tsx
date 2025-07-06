@@ -20,16 +20,24 @@ export default function SettingsScreen() {
     router.push("/screens/profile");
   };
 
+  const handleMoodHistoryPress = () => {
+    router.push("/screens/moodHistory");
+  };
+
   const handleSettingPress = (setting: string) => {};
 
   const handleLogout = () => {};
+
+  const handleBackPress = () => {
+    router.back();
+  };
 
   return (
     <Container>
       <StatusBar barStyle="dark-content" backgroundColor={Colours.green[0]} />
 
       <Header>
-        <BackButton>
+        <BackButton onPress={handleBackPress}>
           <Ionicons name="chevron-back" size={24} color={Colours.black[0]} />
         </BackButton>
         <HeaderTitle>Settings</HeaderTitle>
@@ -73,7 +81,7 @@ export default function SettingsScreen() {
             icon={CHART_ICON}
             title="Mood History"
             subtitle="View insights on your mood was from time to time"
-            onPress={() => handleSettingPress("Mood History")}
+            onPress={handleMoodHistoryPress}
           />
 
           <LogoutCard onPress={handleLogout} />

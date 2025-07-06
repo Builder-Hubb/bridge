@@ -44,9 +44,11 @@ export const Colours = {
 
   blue: {
     1: "#5B7DFF",
+    2: "#18A0FB",
   },
   red: {
     1: "#FF7878",
+    2: "#F6D6BD",
   },
   yellow: {
     1: "#FFCB2D",

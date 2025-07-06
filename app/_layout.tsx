@@ -1,7 +1,10 @@
 import theme from "@/constants/Theme/theme";
 import {
   Manrope_400Regular,
+  Manrope_500Medium,
   Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
   useFonts,
 } from "@expo-google-fonts/manrope";
 import { Stack } from "expo-router";
@@ -16,7 +19,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     Manrope_400Regular,
+    Manrope_500Medium,
     Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
   });
 
   const onLayoutRootView = useCallback(async () => {
