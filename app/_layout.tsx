@@ -29,6 +29,8 @@ export default function RootLayout() {
     Manrope_800ExtraBold,
   });
 
+  const isAuthenticated = false;
+
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
@@ -64,7 +66,11 @@ export default function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
+            {isAuthenticated ? (
+              <Stack.Screen name="(tabs)" />
+            ) : (
+              <Stack.Screen name="(auth)/sign-up" />
+            )}
           </Stack>
         </View>
       </GestureHandlerRootView>
