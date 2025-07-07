@@ -1,5 +1,6 @@
 import CustomIcon from "@/app/components/ui/CustomIcon";
 import { NOTIFICATIONS_ICON } from "@/constants/icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import styled from "styled-components/native";
 import { Colours } from "../../constants/Colours";
@@ -16,6 +17,11 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({
   onUpdateMood,
   onNotificationPress,
 }) => {
+  const router = useRouter();
+
+  const handleNotificationPress = () => {
+    router.push("/screens/notification");
+  };
   return (
     <HeaderContainer>
       <UserInfo>
@@ -31,7 +37,7 @@ const HeaderSection: React.FC<HeaderSectionProps> = ({
           <UpdateMoodText>Update Mood</UpdateMoodText>
         </UpdateMoodButton>
         <NotificationButton onPress={onNotificationPress}>
-          <NotificationIcon>
+          <NotificationIcon onPress={handleNotificationPress}>
             <CustomIcon
               svgString={NOTIFICATIONS_ICON}
               size={24}
@@ -49,7 +55,7 @@ const HeaderContainer = styled.View`
   padding: 24px 20px;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const UserInfo = styled.View`
@@ -61,7 +67,7 @@ const Greeting = styled.Text`
   font-weight: 600;
   color: white;
   font-family: Manrope_600SemiBold;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 
 const MoodContainer = styled.View`
@@ -69,9 +75,9 @@ const MoodContainer = styled.View`
   align-items: center;
   background-color: ${Colours.purple[7]};
   padding: 8px 12px;
-  width: 130px;
+  width: 170px;
   border-radius: 4px;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const MoodText = styled.Text`
@@ -85,12 +91,14 @@ const HeaderActions = styled.View`
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  margin-top: 8px;
 `;
 
 const UpdateMoodButton = styled.TouchableOpacity`
   background-color: ${Colours.purple[7]};
-  padding: 8px 16px;
+  padding: 12px 20px;
   border-radius: 32px;
+  margin-top: 26px;
 `;
 
 const UpdateMoodText = styled.Text`
@@ -102,6 +110,7 @@ const UpdateMoodText = styled.Text`
 
 const NotificationButton = styled.TouchableOpacity`
   padding: 8px;
+  margin-top: 28px;
 `;
 
 const NotificationIcon = styled.Text`
