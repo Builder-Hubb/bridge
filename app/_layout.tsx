@@ -63,8 +63,8 @@ export default function RootLayout() {
     <ThemeProvider theme={theme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
           </Stack>
         </View>
       </GestureHandlerRootView>
