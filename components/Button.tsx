@@ -3,6 +3,8 @@ import React from "react";
 import { ActivityIndicator, GestureResponderEvent } from "react-native";
 import styled from "styled-components/native";
 
+type BorderRadiusType = "flat" | "curved" | "rounded";
+
 interface ButtonProps {
   label: string;
   onPress: (event: GestureResponderEvent) => void;
@@ -10,7 +12,20 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: "primary" | "secondary" | "outline";
   width?: "full" | "fit";
+  borderRadius?: BorderRadiusType;
 }
+
+const getBorderRadius = (borderRadius?: BorderRadiusType) => {
+  switch (borderRadius) {
+    case "flat":
+      return "0px";
+    case "curved":
+      return "8px";
+    case "rounded":
+    default:
+      return "20px";
+  }
+};
 
 const Button: React.FC<ButtonProps> = ({
   label,
@@ -19,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   variant = "primary",
   width = "fit",
+  borderRadius = "rounded",
 }) => {
   return (
     <ButtonWrapper
@@ -26,6 +42,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled || loading}
       variant={variant}
       width={width}
+      borderRadius={borderRadius}
       activeOpacity={0.8}
     >
       {loading ? (
@@ -43,6 +60,7 @@ const ButtonWrapper = styled.TouchableOpacity<{
   disabled?: boolean;
   variant: string;
   width: string;
+  borderRadius?: BorderRadiusType;
 }>`
   background-color: ${({ disabled, variant }) =>
     disabled
@@ -55,7 +73,7 @@ const ButtonWrapper = styled.TouchableOpacity<{
   border: ${({ variant }) =>
     variant === "outline" ? `1px solid ${Colours.purple[8.5]}` : "none"};
   padding: 9px 25px;
-  border-radius: 20px;
+  border-radius: ${({ borderRadius }) => getBorderRadius(borderRadius)};
   align-items: center;
   justify-content: center;
   width: ${({ width }) => (width === "full" ? "100%" : "auto")};
