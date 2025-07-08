@@ -5,6 +5,7 @@ import { Colours } from "@/constants/Colours";
 import FormInput from "@/components/form/FormInput";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
+import { Container } from "@/layout/container";
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -31,16 +32,6 @@ export default function SignUpScreen() {
     </Container>
   );
 }
-
-const Container = styled.View`
-  width: 100vw;
-  height: 100lvh;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  padding-top: 200px;
-  background: white;
-`;
 
 const MainDisplay = styled.View`
   width: 100%;

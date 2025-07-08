@@ -20,6 +20,7 @@ export default function RootLayout() {
   });
 
   const isAuthenticated = false;
+  const showSplashScreen = false;
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -34,7 +35,9 @@ export default function RootLayout() {
       <ThemeProvider theme={theme}>
         <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
           <Stack screenOptions={{ headerShown: false }}>
-            {isAuthenticated ? (
+            {!showSplashScreen ? (
+              <Stack.Screen name="(onboarding)/default" />
+            ) : isAuthenticated ? (
               <Stack.Screen name="(tabs)" />
             ) : (
               <Stack.Screen name="(auth)/sign-up" />

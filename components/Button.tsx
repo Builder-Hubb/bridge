@@ -4,6 +4,7 @@ import { ActivityIndicator, GestureResponderEvent } from "react-native";
 import styled from "styled-components/native";
 
 type BorderRadiusType = "flat" | "curved" | "rounded";
+type ButtonSize = "sm" | "md" | "base" | "lg" | "xl";
 
 interface ButtonProps {
   label: string;
@@ -13,6 +14,7 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "outline";
   width?: "full" | "fit";
   borderRadius?: BorderRadiusType;
+  size?: ButtonSize;
 }
 
 const getBorderRadius = (borderRadius?: BorderRadiusType) => {
@@ -27,6 +29,34 @@ const getBorderRadius = (borderRadius?: BorderRadiusType) => {
   }
 };
 
+const sizeStyles = {
+  sm: {
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    fontSize: 12,
+  },
+  md: {
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    fontSize: 14,
+  },
+  base: {
+    paddingVertical: 9,
+    paddingHorizontal: 25,
+    fontSize: 15,
+  },
+  lg: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    fontSize: 17,
+  },
+  xl: {
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    fontSize: 20,
+  },
+};
+
 const Button: React.FC<ButtonProps> = ({
   label,
   onPress,
@@ -35,6 +65,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   width = "fit",
   borderRadius = "rounded",
+  size = "base",
 }) => {
   return (
     <ButtonWrapper
@@ -43,12 +74,15 @@ const Button: React.FC<ButtonProps> = ({
       variant={variant}
       width={width}
       borderRadius={borderRadius}
+      size={size}
       activeOpacity={0.8}
     >
       {loading ? (
         <ActivityIndicator color={Colours.green[0]} />
       ) : (
-        <ButtonText variant={variant}>{label}</ButtonText>
+        <ButtonText variant={variant} size={size}>
+          {label}
+        </ButtonText>
       )}
     </ButtonWrapper>
   );
@@ -61,6 +95,7 @@ const ButtonWrapper = styled.TouchableOpacity<{
   variant: string;
   width: string;
   borderRadius?: BorderRadiusType;
+  size?: ButtonSize;
 }>`
   background-color: ${({ disabled, variant }) =>
     disabled
@@ -72,7 +107,10 @@ const ButtonWrapper = styled.TouchableOpacity<{
           : Colours.green[5]};
   border: ${({ variant }) =>
     variant === "outline" ? `1px solid ${Colours.purple[8.5]}` : "none"};
-  padding: 9px 25px;
+  padding-vertical: ${({ size }) =>
+    sizeStyles[size || "base"].paddingVertical}px;
+  padding-horizontal: ${({ size }) =>
+    sizeStyles[size || "base"].paddingHorizontal}px;
   border-radius: ${({ borderRadius }) => getBorderRadius(borderRadius)};
   align-items: center;
   justify-content: center;
@@ -80,10 +118,10 @@ const ButtonWrapper = styled.TouchableOpacity<{
   align-self: ${({ width }) => (width === "full" ? "stretch" : "center")};
 `;
 
-const ButtonText = styled.Text<{ variant: string }>`
+const ButtonText = styled.Text<{ variant: string; size?: ButtonSize }>`
   color: ${({ variant }) =>
     variant === "outline" ? Colours.purple[8.5] : Colours.green[0]};
-  font-size: 14px;
+  font-size: ${({ size }) => sizeStyles[size || "base"].fontSize}px;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.semibold};
 `;
