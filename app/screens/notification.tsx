@@ -161,6 +161,7 @@ const LoadingContainer = styled.View`
 const EmptyContainer = styled.View`
   flex: 1;
   justify-content: center;
+
   align-items: center;
   padding: 40px;
 `;
