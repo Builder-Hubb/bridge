@@ -30,6 +30,7 @@ export default function RootLayout() {
   });
 
   const isAuthenticated = false;
+  const showSplashScreen = false;
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -66,7 +67,9 @@ export default function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
           <Stack screenOptions={{ headerShown: false }}>
-            {isAuthenticated ? (
+            {!showSplashScreen ? (
+              <Stack.Screen name="(onboarding)/default" />
+            ) : isAuthenticated ? (
               <Stack.Screen name="(tabs)" />
             ) : (
               <Stack.Screen name="(auth)/sign-up" />
