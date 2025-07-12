@@ -24,6 +24,10 @@ export default function SettingsScreen() {
     router.push("/screens/moodHistory");
   };
 
+  const handleEmotionalTagsPress = () => {
+    router.push("/screens/emotionalTags");
+  };
+
   const handleSettingPress = (setting: string) => {};
 
   const handleLogout = () => {};
@@ -74,7 +78,7 @@ export default function SettingsScreen() {
             icon={TAG_ICON}
             title="Emotional Tags"
             subtitle="View tag library and customize your emotion tags"
-            onPress={() => handleSettingPress("Emotional Tags")}
+            onPress={handleEmotionalTagsPress}
           />
 
           <SettingCard
