@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { SafeAreaView, StatusBar, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StatusBar, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 export default function SettingsScreen() {
@@ -119,9 +119,12 @@ const HeaderTitle = styled(Text)`
   text-align: center;
 `;
 
-const Content = styled(View)`
+const Content = styled(ScrollView).attrs(() => ({
+  contentContainerStyle: {
+    padding: 20,
+  },
+}))`
   flex: 1;
-  padding: 20px;
 `;
 
 const ProfileCard = styled.Pressable`
