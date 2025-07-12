@@ -11,7 +11,7 @@ interface ButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   loading?: boolean;
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "accent" | "outline";
   width?: "full" | "fit";
   borderRadius?: BorderRadiusType;
   size?: ButtonSize;
@@ -102,9 +102,11 @@ const ButtonWrapper = styled.TouchableOpacity<{
       ? Colours.purple[3]
       : variant === "primary"
         ? Colours.purple[8.5]
-        : variant === "outline"
-          ? "transparent"
-          : Colours.green[5]};
+        : variant === "accent"
+          ? Colours.purple[2]
+          : variant === "outline"
+            ? "transparent"
+            : Colours.green[5]};
   border: ${({ variant }) =>
     variant === "outline" ? `1px solid ${Colours.purple[8.5]}` : "none"};
   padding-vertical: ${({ size }) =>
@@ -120,7 +122,11 @@ const ButtonWrapper = styled.TouchableOpacity<{
 
 const ButtonText = styled.Text<{ variant: string; size?: ButtonSize }>`
   color: ${({ variant }) =>
-    variant === "outline" ? Colours.purple[8.5] : Colours.green[0]};
+    variant === "outline"
+      ? Colours.purple[8.5]
+      : variant === "accent"
+        ? Colours.purple[9]
+        : Colours.green[0]};
   font-size: ${({ size }) => sizeStyles[size || "base"].fontSize}px;
   font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.semibold};

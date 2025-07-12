@@ -31,7 +31,7 @@ export default function VerifyEmail() {
   };
 
   const handleDone = () => {
-    router.push("/(tabs)");
+    router.push("/(onboarding)/check-in");
   };
 
   if (showSuccess) {
