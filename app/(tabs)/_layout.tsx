@@ -27,11 +27,15 @@ export default function TabLayout() {
             backgroundColor: "white",
             borderTopWidth: 1,
             borderTopColor: Colours.purple[1],
+            paddingBottom: Platform.OS === "ios" ? 20 : 10,
+            height: Platform.OS === "ios" ? 100 : 90,
           },
           default: {
             backgroundColor: "white",
             borderTopWidth: 1,
             borderTopColor: Colours.purple[1],
+            paddingBottom: 10,
+            height: 90,
           },
         }),
         tabBarLabelStyle: {
