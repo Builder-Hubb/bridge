@@ -1,8 +1,8 @@
-import CustomIcon from "@/app/components/ui/CustomIcon";
 import { Colours } from "@/constants/Colours";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Text, View } from "react-native";
+import { SvgXml } from "react-native-svg";
 import styled from "styled-components/native";
 
 interface SettingCardProps {
@@ -21,7 +21,8 @@ const SettingCard: React.FC<SettingCardProps> = ({
   return (
     <CardContainer onPress={onPress}>
       <IconContainer>
-        <CustomIcon svgString={icon} size={24} color="#292D32" />
+        {/* <CustomIcon svgString={icon} size={24} color="#292D32" /> */}
+        <SvgXml xml={icon} width="24" height="24" fill="#292D32" />
       </IconContainer>
       <ContentContainer>
         <Title>{title}</Title>

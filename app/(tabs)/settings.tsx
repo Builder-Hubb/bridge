@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { SafeAreaView, StatusBar, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StatusBar, Text, View } from "react-native";
 import styled from "styled-components/native";
 
 export default function SettingsScreen() {
@@ -22,6 +22,10 @@ export default function SettingsScreen() {
 
   const handleMoodHistoryPress = () => {
     router.push("/screens/moodHistory");
+  };
+
+  const handleEmotionalTagsPress = () => {
+    router.push("/screens/emotionalTags");
   };
 
   const handleSettingPress = (setting: string) => {};
@@ -74,7 +78,7 @@ export default function SettingsScreen() {
             icon={TAG_ICON}
             title="Emotional Tags"
             subtitle="View tag library and customize your emotion tags"
-            onPress={() => handleSettingPress("Emotional Tags")}
+            onPress={handleEmotionalTagsPress}
           />
 
           <SettingCard
@@ -115,9 +119,12 @@ const HeaderTitle = styled(Text)`
   text-align: center;
 `;
 
-const Content = styled(View)`
+const Content = styled(ScrollView).attrs(() => ({
+  contentContainerStyle: {
+    padding: 20,
+  },
+}))`
   flex: 1;
-  padding: 20px;
 `;
 
 const ProfileCard = styled.Pressable`
